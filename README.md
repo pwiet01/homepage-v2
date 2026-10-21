@@ -1,7 +1,5 @@
 # homepage-v2
 
-Personal homepage
-
 ## Requirements
 
 - Node.js 22 or newer
