@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Terminal from '../components/Terminal.astro';
+import { CONTENT } from '../i18n/content';
+
+const t = CONTENT.de;
+---
+
+<Layout lang="de" title={t.meta.title} description={t.meta.description}>
+  <Terminal lang="de" />
+</Layout>

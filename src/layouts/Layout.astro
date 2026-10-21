@@ -1,0 +1,78 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/600.css';
+import '@fontsource/jetbrains-mono/800.css';
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '../styles/global.css';
+import { CONTENT, LINKS, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Seiten ohne Sprachalternativen (z. B. 404) setzen das auf false. */
+  indexable?: boolean;
+}
+
+const { lang, title, description, indexable = true } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(CONTENT[lang].path, site).href;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Patrice Wietmaier',
+  url: canonical,
+  jobTitle: lang === 'de' ? 'Softwareentwickler' : 'Software Developer',
+  worksFor: { '@type': 'Organization', name: 'OTTO' },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Universität Osnabrück' },
+    { '@type': 'CollegeOrUniversity', name: 'HAW Hamburg' },
+  ],
+  address: { '@type': 'PostalAddress', addressLocality: 'Hamburg', addressCountry: 'DE' },
+  sameAs: [LINKS.github, LINKS.linkedin],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Patrice Wietmaier" />
+    <meta name="theme-color" content="#0f1218" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    {
+      indexable ? (
+        <>
+          <link rel="canonical" href={canonical} />
+          <link rel="alternate" hreflang="de" href={new URL(CONTENT.de.path, site).href} />
+          <link rel="alternate" hreflang="en" href={new URL(CONTENT.en.path, site).href} />
+          <link rel="alternate" hreflang="x-default" href={new URL(CONTENT.de.path, site).href} />
+          <link rel="sitemap" href="/sitemap-index.xml" />
+
+          <meta property="og:type" content="profile" />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:url" content={canonical} />
+          <meta property="og:locale" content={CONTENT[lang].locale} />
+          <meta property="og:locale:alternate" content={CONTENT[lang === 'de' ? 'en' : 'de'].locale} />
+          <meta property="profile:first_name" content="Patrice" />
+          <meta property="profile:last_name" content="Wietmaier" />
+          <meta name="twitter:card" content="summary" />
+
+          <script type="application/ld+json" set:html={JSON.stringify(person)} />
+        </>
+      ) : (
+        <meta name="robots" content="noindex" />
+      )
+    }
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

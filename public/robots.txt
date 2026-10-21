@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pwietmaier.de/sitemap-index.xml

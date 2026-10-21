@@ -1,0 +1,20 @@
+{
+  "name": "homepage-v2",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.3",
+    "@fontsource/ibm-plex-sans": "5.2.8",
+    "@fontsource/jetbrains-mono": "5.2.8",
+    "astro": "5.18.2"
+  }
+}

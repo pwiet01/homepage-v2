@@ -1,0 +1,156 @@
+---
+import { CONTENT, LINKS, SECTIONS, ageOn, type Lang, type Station } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = CONTENT[lang];
+const other = CONTENT[lang === 'de' ? 'en' : 'de'];
+// Wird beim Build berechnet und im Browser aktualisiert, falls seit dem letzten Deployment ein Geburtstag war.
+const age = ageOn(new Date());
+const [greetBefore, greetAfter] = t.greeting(age).split(String(age));
+
+const timelines: { id: 'experience' | 'education'; list: Station[] }[] = [
+  { id: 'experience', list: t.experience },
+  { id: 'education', list: t.education },
+];
+
+const terminalData = {
+  ...t.terminal,
+  sections: SECTIONS,
+  nav: t.nav,
+  otherPath: other.path,
+  otherLang: other.lang,
+};
+---
+
+<a class="skip-link" href="#about">{lang === 'de' ? 'Zum Inhalt springen' : 'Skip to content'}</a>
+
+<div class="window no-js" id="window">
+  <header class="top">
+    <div class="titlebar">
+      <span class="dot" aria-hidden="true"></span><span class="dot" aria-hidden="true"></span><span
+        class="dot"
+        aria-hidden="true"></span>
+      <span class="t" aria-hidden="true">patrice@hamburg: ~ — zsh</span>
+      <div class="lang" role="group" aria-label={t.langLabel}>
+        <a href={CONTENT.de.path} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+        <a href={CONTENT.en.path} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+      </div>
+    </div>
+    <nav aria-label="Navigation">
+      <ul>
+        {
+          SECTIONS.map((s) => (
+            <li>
+              <a href={`#${s.id}`} data-id={s.id}>
+                {t.nav[s.id]} <code aria-hidden="true">{s.cmd}</code>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </header>
+
+  <main class="term" id="term">
+    <section id="about" aria-labelledby="h-about">
+      <div aria-hidden="true">
+        <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> whoami
+      </div>
+      <h1 id="h-about">Patrice Wietmaier<span class="cursor" aria-hidden="true"></span></h1>
+      <p class="lead">{greetBefore}<span data-age>{age}</span>{greetAfter}</p>
+    </section>
+
+    {
+      timelines.map(({ id, list }) => (
+        <section id={id} aria-labelledby={`h-${id}`}>
+          <div aria-hidden="true">
+            <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> {id}
+          </div>
+          <h2 id={`h-${id}`}>{t.nav[id]}</h2>
+          <ol class="tl">
+            {list.map((e) => (
+              <li class={e.current ? 'now' : undefined}>
+                <h3>
+                  <span class="role">{e.role}</span>
+                  <span class="sep"> · </span>
+                  <span class="org">
+                    <a href={e.href} target="_blank" rel="noopener">{e.org}</a>
+                    {e.current && <span class="badge">{t.current}</span>}
+                  </span>
+                </h3>
+                <div class="meta">
+                  {e.when} · {e.where}
+                </div>
+                {e.items.length > 0 && (
+                  <ul>
+                    {e.items.map((i) => (
+                      <li>{i}</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+
+    <section id="skills" aria-labelledby="h-skills">
+      <div aria-hidden="true">
+        <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> ls skills/
+      </div>
+      <h2 id="h-skills">{t.nav.skills}</h2>
+      <div class="skills">
+        {
+          t.skills.map((s) => (
+            <div class="skill">
+              <h3>{s.key}</h3>
+              <p>{s.desc}</p>
+              <ul class="tags">
+                {s.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="links" aria-labelledby="h-links">
+      <div aria-hidden="true">
+        <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> cat links.txt
+      </div>
+      <h2 id="h-links">{t.nav.links}</h2>
+      <ul class="links">
+        <li>
+          <span class="k">github</span><a href={LINKS.github} target="_blank" rel="noopener me">github.com/pwiet01</a>
+        </li>
+        <li>
+          <span class="k">linkedin</span><a href={LINKS.linkedin} target="_blank" rel="noopener me"
+            >linkedin.com/in/patrice-wietmaier</a
+          >
+        </li>
+      </ul>
+    </section>
+
+    <div id="output" aria-live="polite"></div>
+    <div class="inputline">
+      <span aria-hidden="true"><span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span></span>
+      <input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send" aria-label={t.inputLabel} />
+    </div>
+    <p class="hint" set:html={t.hint} />
+  </main>
+</div>
+
+<script type="application/json" id="terminal-data" set:html={JSON.stringify(terminalData).replace(/</g, '\\u003c')} />
+
+<script>
+  import { initTerminal } from '../scripts/terminal';
+
+  initTerminal();
+</script>

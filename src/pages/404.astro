@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout lang="de" title="404 – Patrice Wietmaier" description="Seite nicht gefunden / Page not found" indexable={false}>
+  <div class="window">
+    <header class="top">
+      <div class="titlebar">
+        <span class="dot" aria-hidden="true"></span><span class="dot" aria-hidden="true"></span><span
+          class="dot"
+          aria-hidden="true"></span>
+        <span class="t" aria-hidden="true">patrice@hamburg: ~ — zsh</span>
+      </div>
+    </header>
+    <main class="term">
+      <div aria-hidden="true">
+        <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> cd <span id="path"></span>
+      </div>
+      <h1>404</h1>
+      <p class="err">cd: no such file or directory</p>
+      <p>Diese Seite gibt es nicht. <a href="/">Zur Startseite</a></p>
+      <p lang="en">This page doesn't exist. <a href="/en/">Back to the homepage</a></p>
+    </main>
+  </div>
+  <script>
+    const path = document.getElementById('path');
+    if (path) path.textContent = location.pathname;
+  </script>
+</Layout>
