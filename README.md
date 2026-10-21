@@ -1,20 +1,22 @@
 # homepage-v2
 
-## Voraussetzungen
+Personal homepage of Patrice Wietmaier: a static, terminal-style CV site in German and English, built with Astro and deployed on Vercel.
 
-- Node.js 22 oder neuer
+## Requirements
+
+- Node.js 22 or newer
 - npm
 
-## Lokal starten
+## Run locally
 
 ```sh
 npm install
 npm run dev
 ```
 
-Die Seite läuft dann unter http://localhost:4321 (Deutsch) und http://localhost:4321/en/ (Englisch).
+The site is then available at http://localhost:4321 (German) and http://localhost:4321/en/ (English).
 
-## Production-Build lokal prüfen
+## Check the production build locally
 
 ```sh
 npm run build

@@ -2,6 +2,7 @@
   "name": "homepage-v2",
   "type": "module",
   "version": "1.0.0",
+  "description": "Personal homepage of Patrice Wietmaier: a static, terminal-style CV site in German and English, built with Astro.",
   "private": true,
   "engines": {
     "node": ">=22"
