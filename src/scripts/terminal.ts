@@ -1,5 +1,4 @@
 import { ageOn } from '../lib/age';
-import { loadWeather, weatherIcon, type Weather } from './weather';
 import type { Command, SectionId, TerminalStrings } from '../i18n/content';
 
 interface TerminalData extends TerminalStrings {
@@ -26,9 +25,8 @@ const FERRIS = [
 
 const esc = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
-let promptWeather = '';
 const prompt = (c: string) =>
-  `<span class="p-user">patrice@hamburg</span><span class="p-weather">${promptWeather}</span> <span class="p-path">~</span> <span class="dim">❯</span> ${c}`;
+  `<span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> ${c}`;
 
 export function initTerminal() {
   const dataEl = document.getElementById('terminal-data');
@@ -41,16 +39,6 @@ export function initTerminal() {
 
   // Alter aktualisieren, falls seit dem Build ein Geburtstag war
   document.querySelectorAll('[data-age]').forEach((el) => (el.textContent = String(ageOn(new Date()))));
-
-  // Hamburger Wetter im Prompt; ohne Antwort der API bleibt der Prompt einfach wie bisher
-  function showWeather(w: Weather) {
-    promptWeather = ` ${w.temperature}°C ${weatherIcon(w)}`;
-    document.querySelectorAll('.p-weather').forEach((el) => {
-      el.textContent = promptWeather;
-      el.setAttribute('title', t.weather.source);
-    });
-  }
-  loadWeather().then((w) => w && showWeather(w));
 
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, reduceMotion ? 0 : ms));
@@ -138,17 +126,6 @@ export function initTerminal() {
       ]);
     },
     moin: () => out(esc(t.moin)),
-    [t.weather.cmd]: async () => {
-      const g = gen;
-      const w = await loadWeather();
-      if (g !== gen) return;
-      if (!w) return out(`<span class="dim">${esc(t.weather.unavailable)}</span>`);
-      showWeather(w);
-      out(
-        `Hamburg · ${w.temperature} °C · ${weatherIcon(w)} ${esc(t.weather.conditions[w.condition])} · ${esc(t.weather.wind)} ${w.windSpeed} km/h\n` +
-          `<span class="dim">${esc(t.weather.source)}</span>`,
-      );
-    },
     sudo: () => out(`<span class="err">${esc(t.sudo)}</span>`),
   };
 
@@ -163,7 +140,6 @@ export function initTerminal() {
     hIdx = history.length;
     const [name, arg] = c.toLowerCase().split(/\s+/);
 
-    if (name === 'wetter' || name === 'weather') return void eggs[t.weather.cmd]();
     if (name === 'help' || name === 'hilfe' || name === '?') return out(helpText(t.commands));
     if (name === 'clear') {
       gen++;

@@ -58,7 +58,7 @@ const terminalData = {
   <main class="term" id="term">
     <section id="about" aria-labelledby="h-about">
       <div aria-hidden="true">
-        <span class="p-user">patrice@hamburg</span><span class="p-weather"></span> <span class="p-path">~</span> <span class="dim">❯</span> whoami
+        <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> whoami
       </div>
       <h1 id="h-about">Patrice Wietmaier<span class="cursor" aria-hidden="true"></span></h1>
       <p class="lead">{greetBefore}<span data-age>{age}</span>{greetAfter}</p>
@@ -68,7 +68,7 @@ const terminalData = {
       timelines.map(({ id, list }) => (
         <section id={id} aria-labelledby={`h-${id}`}>
           <div aria-hidden="true">
-            <span class="p-user">patrice@hamburg</span><span class="p-weather"></span> <span class="p-path">~</span> <span class="dim">❯</span> {id}
+            <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> {id}
           </div>
           <h2 id={`h-${id}`}>{t.nav[id]}</h2>
           <ol class="tl">
@@ -101,7 +101,7 @@ const terminalData = {
 
     <section id="skills" aria-labelledby="h-skills">
       <div aria-hidden="true">
-        <span class="p-user">patrice@hamburg</span><span class="p-weather"></span> <span class="p-path">~</span> <span class="dim">❯</span> ls skills/
+        <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> ls skills/
       </div>
       <h2 id="h-skills">{t.nav.skills}</h2>
       <div class="skills">
@@ -123,7 +123,7 @@ const terminalData = {
 
     <section id="links" aria-labelledby="h-links">
       <div aria-hidden="true">
-        <span class="p-user">patrice@hamburg</span><span class="p-weather"></span> <span class="p-path">~</span> <span class="dim">❯</span> cat links.txt
+        <span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span> cat links.txt
       </div>
       <h2 id="h-links">{t.nav.links}</h2>
       <ul class="links">
@@ -140,7 +140,7 @@ const terminalData = {
 
     <div id="output" aria-live="polite"></div>
     <div class="inputline">
-      <span aria-hidden="true"><span class="p-user">patrice@hamburg</span><span class="p-weather"></span> <span class="p-path">~</span> <span class="dim">❯</span></span>
+      <span aria-hidden="true"><span class="p-user">patrice@hamburg</span> <span class="p-path">~</span> <span class="dim">❯</span></span>
       <input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send" aria-label={t.inputLabel} />
     </div>
     <p class="hint" set:html={t.hint} />
