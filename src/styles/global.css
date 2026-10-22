@@ -453,7 +453,10 @@ a:focus-visible {
   .sep { display: none; }
   .org { display: block; }
   .badge { margin-left: 6px; }
-  .links li { display: grid; }
+  .links li {
+    display: grid;
+    justify-items: start;
+  }
   .links .k {
     width: auto;
     font-size: 12px;
