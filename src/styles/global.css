@@ -177,6 +177,7 @@ section.flash {
 }
 .p-user { color: var(--user); font-weight: 600; }
 .p-path { color: var(--path); }
+.p-weather { color: var(--dim); }
 .dim { color: var(--dim); }
 .acc { color: var(--accent); }
 .err { color: var(--err); }

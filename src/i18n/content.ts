@@ -38,7 +38,16 @@ export interface TerminalStrings {
   lambdaBody: string;
   lambdaCold: string;
   moin: string;
+  weather: {
+    cmd: string;
+    conditions: Record<WeatherCondition, string>;
+    wind: string;
+    source: string;
+    unavailable: string;
+  };
 }
+
+export type WeatherCondition = 'clear' | 'partly' | 'cloudy' | 'fog' | 'drizzle' | 'rain' | 'snow' | 'showers' | 'thunder';
 
 export interface Content {
   lang: Lang;
@@ -163,6 +172,7 @@ const de: Content = {
       { cmd: 'cargo run', desc: '' },
       { cmd: 'lambda', desc: '' },
       { cmd: 'moin', desc: '' },
+      { cmd: 'wetter', desc: '' },
       { cmd: 'clear', desc: '' },
     ],
     notFound: 'zsh: Befehl nicht gefunden:',
@@ -176,6 +186,23 @@ const de: Content = {
     lambdaBody: 'Moin!',
     lambdaCold: 'Kaltstart … Container wird hochgefahren',
     moin: 'Moin!',
+    weather: {
+      cmd: 'wetter',
+      conditions: {
+        clear: 'klar',
+        partly: 'teils bewölkt',
+        cloudy: 'bedeckt',
+        fog: 'Nebel',
+        drizzle: 'Nieselregen',
+        rain: 'Regen',
+        snow: 'Schnee',
+        showers: 'Schauer',
+        thunder: 'Gewitter',
+      },
+      wind: 'Wind',
+      source: 'Wetterdaten: Open-Meteo.com',
+      unavailable: 'Wetterdaten gerade nicht verfügbar. Vermutlich regnet es.',
+    },
   },
 };
 
@@ -268,6 +295,7 @@ const en: Content = {
       { cmd: 'cargo run', desc: '' },
       { cmd: 'lambda', desc: '' },
       { cmd: 'moin', desc: '' },
+      { cmd: 'weather', desc: '' },
       { cmd: 'clear', desc: '' },
     ],
     notFound: 'zsh: command not found:',
@@ -281,6 +309,23 @@ const en: Content = {
     lambdaBody: 'Moin!',
     lambdaCold: 'Cold start … spinning up a container',
     moin: 'Moin!',
+    weather: {
+      cmd: 'weather',
+      conditions: {
+        clear: 'clear',
+        partly: 'partly cloudy',
+        cloudy: 'overcast',
+        fog: 'fog',
+        drizzle: 'drizzle',
+        rain: 'rain',
+        snow: 'snow',
+        showers: 'showers',
+        thunder: 'thunderstorm',
+      },
+      wind: 'wind',
+      source: 'Weather data: Open-Meteo.com',
+      unavailable: 'Weather data unavailable right now. It is probably raining.',
+    },
   },
 };
 
